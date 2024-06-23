@@ -1,0 +1,4 @@
+level: "info"
+add_source: false
+is_json: true
+set_default: true
