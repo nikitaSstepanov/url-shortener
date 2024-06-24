@@ -3,8 +3,8 @@ package url
 import (
 	"context"
 	
-	"github.com/nikitaSstepanov/url-shortener/internal/entity"
 	"github.com/nikitaSstepanov/url-shortener/pkg/utils/generator"
+	"github.com/nikitaSstepanov/url-shortener/internal/entity"
 )
 
 type Urls interface {
@@ -17,7 +17,7 @@ type Url struct {
 }
 
 const (
-	aliasLength = 6
+	aliasLength int = 6
 )
 
 func New(store Urls) *Url {

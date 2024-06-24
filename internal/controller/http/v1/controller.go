@@ -1,18 +1,18 @@
 package controller
 
 import (
-	"github.com/labstack/echo/v4"
-	url_handler "github.com/nikitaSstepanov/url-shortener/internal/controller/http/v1/url"
+	"github.com/nikitaSstepanov/url-shortener/internal/controller/http/v1/url"
 	"github.com/nikitaSstepanov/url-shortener/internal/usecase"
+	"github.com/labstack/echo/v4"
 )
 
 type Controller struct {
-	url *url_handler.Url
+	url *url.Url
 }
 
 func New(uc *usecase.UseCase) *Controller {
 	return &Controller{
-		url: url_handler.New(uc.Url),
+		url: url.New(uc.Url),
 	}
 }
 

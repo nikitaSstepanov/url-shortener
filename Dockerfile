@@ -16,7 +16,7 @@ FROM alpine AS runner
 
 COPY --from=builder /usr/local/src/bin/url-shortener ./
 
-COPY ./config/config.yml ./config/config.yml
+COPY ./config ./config
 
 COPY ./migrations/scheme ./migrations/scheme
 

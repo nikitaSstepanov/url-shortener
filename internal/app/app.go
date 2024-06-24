@@ -1,20 +1,20 @@
 package app
 
 import (
-	"context"
-	"os"
 	"os/signal"
 	"syscall"
+	"context"
+	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/nikitaSstepanov/url-shortener/internal/controller/http/v1"
-	"github.com/nikitaSstepanov/url-shortener/internal/usecase"
 	"github.com/nikitaSstepanov/url-shortener/internal/usecase/storage"
-	"github.com/nikitaSstepanov/url-shortener/migrations"
 	"github.com/nikitaSstepanov/url-shortener/pkg/client/postgresql"
+	"github.com/nikitaSstepanov/url-shortener/internal/usecase"
 	"github.com/nikitaSstepanov/url-shortener/pkg/client/redis"
 	"github.com/nikitaSstepanov/url-shortener/pkg/logging"
+	"github.com/nikitaSstepanov/url-shortener/migrations"
 	"github.com/nikitaSstepanov/url-shortener/pkg/server"
+	"github.com/joho/godotenv"
 )
 
 type App struct {

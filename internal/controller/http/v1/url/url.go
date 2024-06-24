@@ -1,12 +1,12 @@
 package url
 
 import (
-	"context"
 	"net/http"
+	"context"
 
-	"github.com/labstack/echo/v4"
 	"github.com/nikitaSstepanov/url-shortener/internal/controller/http/v1/dto"
 	"github.com/nikitaSstepanov/url-shortener/internal/entity"
+	"github.com/labstack/echo/v4"
 )
 
 type UrlsUseCase interface {
@@ -28,7 +28,7 @@ func (u *Url) SetUrl(ctx echo.Context) error {
 	newUrl := dto.SetUrlDto{}
 
 	if err := ctx.Bind(&newUrl); err != nil {
-		return ctx.JSON(http.StatusBadRequest, "incorrect body")
+		return ctx.JSON(http.StatusBadRequest, "Invalid body")
 	}
 
 	url, msg := u.usecase.SetUrl(context.Background(), newUrl.ToEntity())

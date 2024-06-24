@@ -1,7 +1,7 @@
 services:
     postgres:
         container_name: url_shortener_postgres
-        image: postgres:16.2-bullseye
+        image: postgres:16.3-alpine3.20
         env_file:
             - .env
         environment:
@@ -15,7 +15,7 @@ services:
     
     redis:
         container_name: url_shortener_redis
-        image: redis:alpine3.19
+        image: redis:alpine3.20
         env_file:
             - .env
         environment:
@@ -36,20 +36,6 @@ services:
             - redis
         networks:
             - internal
-            - external
-
-    nginx:
-        container_name: nginx
-        image: nginx:stable-perl
-        working_dir: /app
-        depends_on:
-            - app
-        networks:
-            - external
-        volumes:
-            - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-        links:
-            - app
         ports:
             - 80:80
 
@@ -59,4 +45,3 @@ volumes:
 
 networks:
     internal:
-    external:

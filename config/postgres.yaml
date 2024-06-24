@@ -1,4 +1,4 @@
-host: "localhost"
+host: "url_shortener_postgres"
 port: "5432"
 username: "admin"
 dbname: "postgres"

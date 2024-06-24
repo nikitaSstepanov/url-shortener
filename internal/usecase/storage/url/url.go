@@ -2,14 +2,14 @@ package url
 
 import (
 	"context"
-	"fmt"
 	"time"
+	"fmt"
 
-	"github.com/jackc/pgx/v5"
-	"github.com/nikitaSstepanov/url-shortener/internal/entity"
 	"github.com/nikitaSstepanov/url-shortener/internal/usecase/storage/model"
 	"github.com/nikitaSstepanov/url-shortener/pkg/client/postgresql"
+	"github.com/nikitaSstepanov/url-shortener/internal/entity"
 	goredis "github.com/redis/go-redis/v9"
+	"github.com/jackc/pgx/v5"
 )
 
 type Url struct {
