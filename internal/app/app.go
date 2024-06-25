@@ -12,9 +12,8 @@ import (
 	"github.com/nikitaSstepanov/url-shortener/internal/usecase"
 	"github.com/nikitaSstepanov/url-shortener/pkg/client/redis"
 	"github.com/nikitaSstepanov/url-shortener/pkg/logging"
-	"github.com/nikitaSstepanov/url-shortener/migrations"
 	"github.com/nikitaSstepanov/url-shortener/pkg/server"
-	"github.com/joho/godotenv"
+	"github.com/nikitaSstepanov/url-shortener/migrations"
 )
 
 type App struct {
@@ -28,27 +27,18 @@ type App struct {
 func New() *App {
 	app := &App{}
 
-	loggerCfg, err := getLoggerConfig()
+	cfg, err := getAppConfig()
 	if err != nil {
-		panic("Can`t get logger config. Error: " + err.Error())
+		panic("Can`t get app config. Error: " + err.Error())
 	}
 
-	logger := logging.NewLogger(loggerCfg)
+	logger := logging.NewLogger(&cfg.Logger)
 
 	app.logger = logger
 
 	ctx := context.TODO()
 
-	if err := godotenv.Load(".env"); err != nil {
-		logger.Error("Can`t load env. Error: " + err.Error())
-	}
-
-	postgresCfg, err := getPostgresConfig()
-	if err != nil {
-		logger.Error("Can`t get postgres config. Error: " + err.Error())
-	}
-
-	pgPool, err := postgresql.ConnectToDB(ctx, postgresCfg)
+	pgPool, err := postgresql.ConnectToDB(ctx, &cfg.Postgres)
 	if err != nil {
 		logger.Error("Can`t connect to postgres. Error: " + err.Error())
 	} else {
@@ -61,21 +51,11 @@ func New() *App {
 		logger.Info("Postgres scheme is migrated")
 	}
 
-	redisCfg, err := getRedisConfig()
-	if err != nil {
-		logger.Error("Can`t get redis config. Error: " + err.Error())
-	}
-
-	redisClient, err := redis.ConnectToRedis(ctx, redisCfg)
+	redisClient, err := redis.ConnectToRedis(ctx, &cfg.Redis)
 	if err != nil {
 		logger.Error("Can`t connect to redis. Error: " + err.Error())
 	} else {
 		logger.Info("Redis is connected")
-	}
-
-	serverCfg, err := getServerConfig()
-	if err != nil {
-		logger.Error("Can`t get server config. Error: " + err.Error())
 	}
 
 	app.storage = storage.New(pgPool, redisClient)
@@ -86,7 +66,7 @@ func New() *App {
 
 	handler := app.controller.InitRoutes()
 
-	app.server = server.New(handler, serverCfg)
+	app.server = server.New(handler, &cfg.Server)
 
 	return app
 }
