@@ -25,16 +25,12 @@ type App struct {
 }
 
 func New() *App {
-	app := &App{}
-
 	cfg, err := getAppConfig()
 	if err != nil {
 		panic("Can`t get app config. Error: " + err.Error())
 	}
 
 	logger := logging.NewLogger(&cfg.Logger)
-
-	app.logger = logger
 
 	ctx := context.TODO()
 
@@ -57,6 +53,10 @@ func New() *App {
 	} else {
 		logger.Info("Redis is connected")
 	}
+
+	app := &App{}
+
+	app.logger = logger
 
 	app.storage = storage.New(pgPool, redisClient)
 

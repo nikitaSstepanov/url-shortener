@@ -2,9 +2,12 @@ package generator
 
 import "math/rand"
 
+const (
+	lenOfSymbols = 62
+)
+
 var (
 	symbols = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890")
-	lenOfSymbols = 62
 )
 
 func GetRandomString(length int) string {

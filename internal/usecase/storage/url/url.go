@@ -12,7 +12,7 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-type Url struct {
+type UrlStorage struct {
 	postgres postgresql.Client
 	redis    *goredis.Client
 }
@@ -22,14 +22,14 @@ const (
 	urlsTable    = "urls"
 )
 
-func New(pg postgresql.Client, redisConn *goredis.Client) *Url {
-	return &Url{
+func New(pg postgresql.Client, redisConn *goredis.Client) *UrlStorage {
+	return &UrlStorage{
 		postgres: pg,
 		redis:    redisConn,
 	}
 }
 
-func (u *Url) GetUrl(ctx context.Context, alias string) (*entity.Url, error) {
+func (u *UrlStorage) GetUrl(ctx context.Context, alias string) (*entity.Url, error) {
 	var url model.Url
 
 	err := u.redis.Get(ctx, getRedisKey(alias)).Scan(&url)
@@ -62,7 +62,7 @@ func (u *Url) GetUrl(ctx context.Context, alias string) (*entity.Url, error) {
 	return url.ToEntity(), nil
 }
 
-func (u *Url) SetUrl(ctx context.Context, url *entity.Url) error {
+func (u *UrlStorage) SetUrl(ctx context.Context, url *entity.Url) error {
 	urlModel := model.UrlToModel(url)
 	
 	query := "INSERT INTO urls (url, alias) VALUES ($1, $2) RETURNING id;"

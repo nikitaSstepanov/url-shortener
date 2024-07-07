@@ -7,7 +7,7 @@ import (
 )
 
 type Controller struct {
-	url *url.Url
+	url *url.UrlHandler
 }
 
 func New(uc *usecase.UseCase) *Controller {

@@ -13,19 +13,16 @@ type Server struct {
 }
 
 type Config struct {
-	Url string `yaml:"url"`
+	Url          string        `yaml:"url"`
+	ReadTimeout  time.Duration `yaml:"readTimeout"`
+	WriteTimeout time.Duration `yaml:"writeTimeout"`
 }
-
-const (
-	readTimeout  = 5 * time.Second
-	writeTimeout = 5 * time.Second
-)
 
 func New(handler http.Handler, cfg *Config) *Server {
 	return &Server{
 		server: &http.Server{
-			ReadTimeout:  readTimeout,
-			WriteTimeout: writeTimeout,
+			ReadTimeout:  cfg.ReadTimeout,
+			WriteTimeout: cfg.WriteTimeout,
 			Handler:      handler,
 			Addr:         cfg.Url,
 		},

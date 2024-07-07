@@ -7,26 +7,26 @@ import (
 	"github.com/nikitaSstepanov/url-shortener/internal/entity"
 )
 
-type Urls interface {
+type UrlStorage interface {
 	GetUrl(ctx context.Context, alias string) (*entity.Url, error)
 	SetUrl(ctx context.Context, url *entity.Url) error
 }
 
-type Url struct {
-	urls Urls
+type UrlUseCase struct {
+	urls UrlStorage
 }
 
 const (
 	aliasLength int = 6
 )
 
-func New(store Urls) *Url {
-	return &Url{
+func New(store UrlStorage) *UrlUseCase {
+	return &UrlUseCase{
 		urls: store,
 	}
 }
 
-func (u *Url) SetUrl(ctx context.Context, url *entity.Url) (*entity.Url, *entity.Message) {
+func (u *UrlUseCase) SetUrl(ctx context.Context, url *entity.Url) (*entity.Url, *entity.Message) {
 	if url.Url == "" {
 		return nil, entity.GetMsg("Url mustn`t be empty", entity.BadInput)
 	}
@@ -62,7 +62,7 @@ func (u *Url) SetUrl(ctx context.Context, url *entity.Url) (*entity.Url, *entity
 	return url, nil
 }
 
-func (u *Url) GetUrl(ctx context.Context, alias string) (*entity.Url, *entity.Message) {
+func (u *UrlUseCase) GetUrl(ctx context.Context, alias string) (*entity.Url, *entity.Message) {
 	url, err := u.urls.GetUrl(context.Background(), alias)
 	if err != nil {
 		return nil, entity.GetMsg("Something going wrong..", entity.Internal)

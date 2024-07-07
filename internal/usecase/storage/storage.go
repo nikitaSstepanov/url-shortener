@@ -7,7 +7,7 @@ import (
 )
 
 type Storage struct {
-	Url *url.Url
+	Url *url.UrlStorage
 }
 
 func New(pg postgresql.Client, redis *goredis.Client) *Storage {

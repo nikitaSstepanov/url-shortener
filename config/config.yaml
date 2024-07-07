@@ -1,20 +1,22 @@
 server:
-    url: ":80"
+    url:          ":80"
+    readTimeout:  5s
+    writeTimeout: 5s
 
 logger:
-    level: "info"
-    add_source: true
-    is_json: true
+    level:       "info"
+    add_source:  true
+    is_json:     true
     set_default: true
 
 postgres:
-    host: "url_shortener_postgres"
-    port: "5432"
+    host:     "url_shortener_postgres"
+    port:     "5432"
     username: "admin"
-    dbname: "postgres"
-    sslmode: "disable"
+    dbname:   "postgres"
+    sslmode:  "disable"
 
 redis:
     host: "url_shortener_redis"
     port: "6379"
-    db: "1"
+    db:   "1"

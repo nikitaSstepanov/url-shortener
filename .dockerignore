@@ -1,4 +1,4 @@
-.dockerignore
 docker-compose*
+.dockerignore
 Dockerfile
 .gitignore

@@ -14,17 +14,17 @@ type UrlsUseCase interface {
 	GetUrl(ctx context.Context, alias string) (*entity.Url, *entity.Message)
 }
 
-type Url struct {
+type UrlHandler struct {
 	usecase UrlsUseCase
 }
 
-func New(uc UrlsUseCase) *Url {
-	return &Url{
+func New(uc UrlsUseCase) *UrlHandler {
+	return &UrlHandler{
 		usecase: uc,
 	}
 }
 
-func (u *Url) SetUrl(ctx echo.Context) error {
+func (u *UrlHandler) SetUrl(ctx echo.Context) error {
 	newUrl := dto.SetUrlDto{}
 
 	if err := ctx.Bind(&newUrl); err != nil {
@@ -39,7 +39,7 @@ func (u *Url) SetUrl(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, dto.UrlToDto(url))
 }
 
-func (u *Url) Redirect(ctx echo.Context) error {
+func (u *UrlHandler) Redirect(ctx echo.Context) error {
 	alias := ctx.Param("alias")
 
 	url, msg := u.usecase.GetUrl(context.Background(), alias)
@@ -50,7 +50,7 @@ func (u *Url) Redirect(ctx echo.Context) error {
 	return ctx.Redirect(http.StatusFound, url.Url)
 }
 
-func (u *Url) handleMsg(ctx echo.Context,msg *entity.Message) error {
+func (u *UrlHandler) handleMsg(ctx echo.Context,msg *entity.Message) error {
 	e := dto.Error(msg.Msg)
 
 	switch msg.Status {

@@ -6,7 +6,7 @@ import (
 )
 
 type UseCase struct {
-	Url *url.Url
+	Url *url.UrlUseCase
 }
 
 func New(store *storage.Storage) *UseCase {
