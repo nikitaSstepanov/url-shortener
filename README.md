@@ -17,8 +17,12 @@ It is url shortener. It allows you to shorten links and create custom aliases.
 
 5) Navigate to the root of the project in the terminal and enter the command:
 
-    ```docker-compose up```
+    ```shell
+    docker compose up
+    ```
     
     If you don`t use docker, enter:
 
-    ```go run ./cmd/url-shortener/main.go```
+    ```shell
+    go run ./cmd/url-shortener/main.go
+    ```
